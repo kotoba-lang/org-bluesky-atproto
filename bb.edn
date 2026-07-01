@@ -1,0 +1,3 @@
+{:tasks
+ {test {:doc "Run atproto tests."
+        :task (shell "clojure -M:test")}}}
