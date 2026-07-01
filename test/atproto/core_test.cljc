@@ -1,6 +1,7 @@
 (ns atproto.core-test
   (:require [clojure.test :refer [deftest is]]
-            [atproto.core :as at]))
+            [atproto.core :as at]
+            [atproto.sdk :as sdk]))
 
 (deftest uri-roundtrip
   (let [uri (at/repo-uri "did:web:aozora.app" at/post-collection "abc")]
@@ -28,3 +29,10 @@
   (is (not (at/collection? "post")))
   (is (at/valid-rkey? "self"))
   (is (not (at/valid-rkey? "a/b"))))
+
+(deftest sdk-coverage-shape
+  (is (= :identifiers (:id (sdk/feature :identifiers))))
+  (is (= :repo (:id (sdk/feature :repo))))
+  (is (some #{:repo} (sdk/extraction-order)))
+  (is (seq (sdk/planned-features)))
+  (is (seq (sdk/partial-features))))
