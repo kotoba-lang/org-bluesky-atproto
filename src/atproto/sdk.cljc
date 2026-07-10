@@ -3,11 +3,31 @@
   (:require [clojure.edn :as edn]
             #?(:clj [clojure.java.io :as io])))
 
+(defn- unblob
+  "resources/atproto/sdk_coverage.edn is stored as Datomic/Datascript tx-data
+  (scripts/edn-datomize.bb): non-scalar values (nested maps, vectors-of-maps)
+  are pr-str'd into blob strings so the file stays a valid tx-data vector.
+  Parse a blob back into a live EDN value; pass scalars through unchanged."
+  [v]
+  (if (string? v)
+    (try (let [parsed (edn/read-string v)] (if (coll? parsed) parsed v))
+         (catch Exception _ v))
+    v))
+
+(defn- reconstitute-coverage
+  "The tx-data entity already uses the file's original :atproto.sdk/* keys
+  (wrap-generic keeps pre-existing namespaces), so reconstituting just means
+  dropping :db/id and unblobbing each value back to its original shape."
+  [tx-data]
+  (into {} (map (fn [[k v]] [k (unblob v)]))
+        (dissoc (first tx-data) :db/id)))
+
 (defn coverage
   "Read the SDK coverage EDN resource. CLJS runtimes should consume this data
   through a build-time EDN load or an application-provided copy."
   []
-  #?(:clj (some-> "atproto/sdk_coverage.edn" io/resource slurp edn/read-string)
+  #?(:clj (some-> "atproto/sdk_coverage.edn" io/resource slurp edn/read-string
+                   reconstitute-coverage)
      :cljs nil))
 
 (defn features []
