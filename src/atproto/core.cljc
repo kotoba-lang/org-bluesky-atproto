@@ -1,6 +1,6 @@
 (ns atproto.core
   "EDN-first AT Protocol contract helpers shared by kotoba and app-aozora."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def profile-collection "app.bsky.actor.profile")
 (def post-collection "app.bsky.feed.post")
