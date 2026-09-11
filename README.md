@@ -44,7 +44,7 @@ identity, service auth, streaming, OAuth, client, bsky helpers, PLC, server/PDS.
 ## Test
 
 ```bash
-clojure -M:test
+kbb -M:test
 ```
 
 ## License

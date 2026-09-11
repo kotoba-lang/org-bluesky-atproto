@@ -1,4 +1,4 @@
-#!/usr/bin/env bb
+#!/usr/bin/env kbb
 ;; scripts/edn-datomize.bb — EDN → Datomic/Datascript tx-data 変換ツール。
 ;; org-bluesky-atproto 用に com-junkawasaki/root superproject の
 ;; manifest/edn-datomize.bb 系譜（gftdcojp/net-kotobase Phase 2 pilot 版）から
