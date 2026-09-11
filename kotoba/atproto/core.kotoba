@@ -44,7 +44,7 @@
 ;;
 ;;   kotoba -M test              7 tests GREEN on jvm-kir, js AND wasm, for this
 ;;                               file and for the .cljk twin
-;;   clojure -M:test             15 tests / 214 assertions / 0 failures --
+;;   kbb -M:test             15 tests / 214 assertions / 0 failures --
 ;;                               `atproto.core-kotoba-parity-test` against the
 ;;                               oracle over 11 DIDs, 14 NSIDs, 10 rkeys, 11
 ;;                               at:// URIs, both profile documents, the
