@@ -1,6 +1,6 @@
 (ns atproto.sdk
   "EDN-first AT Protocol SDK coverage map for kotoba-lang/atproto."
-  (:require [clojure.edn :as edn]
+  (:require [kotoba.lang.edn :as edn]
             #?(:clj [clojure.java.io :as io])))
 
 (defn- unblob
