@@ -1,7 +1,7 @@
 (ns atproto.sdk
   "EDN-first AT Protocol SDK coverage map for kotoba-lang/atproto."
   (:require [kotoba.lang.edn :as edn]
-            #?(:clj [clojure.java.io :as io])))
+            #?(:clj [kotoba.io :as io])))
 
 (defn- unblob
   "resources/atproto/sdk_coverage.edn is stored as Datomic/Datascript tx-data
