@@ -17,7 +17,7 @@
 ;; asserting it disagrees with the oracle.
 
 (ns atproto.core-kotoba-parity-test
-  (:require [kotoba.io :as io]
+  (:require [kotoba.lang.error :as kerror] [kotoba.io :as io]
             [kotoba.lang.text :as str]
             [kotoba.test :refer [deftest is testing]]
             [kotoba.compiler.core :as compiler]
@@ -115,7 +115,7 @@
           (str "repo-uri-status " (pr-str [repo coll rkey])))
       (if (= want :ok)
         (is (string? (at/repo-uri repo coll rkey)) "the oracle builds it")
-        (is (thrown? clojure.lang.ExceptionInfo (at/repo-uri repo coll rkey))
+        (is (thrown? kerror/ExceptionInfo (at/repo-uri repo coll rkey))
             (str "the oracle throws for " want)))
       (when-not (= want :ok)
         (is (= "" (call @kir 'repo-uri [repo coll rkey]))
@@ -124,7 +124,7 @@
 (deftest the-uri-parser-agrees-on-every-valid-uri
   (when (source-available?)
     (doseq [uri uris]
-      (let [parsed (try (at/parse-uri uri) (catch clojure.lang.ExceptionInfo _ nil))]
+      (let [parsed (try (at/parse-uri uri) (catch kerror/ExceptionInfo _ nil))]
         (is (= (some? parsed) (call @kir 'uri-valid? [uri]))
             (str "uri-valid? " (pr-str uri)))
         (when parsed
@@ -194,8 +194,8 @@
   one anyway; now it gets an empty string, which is why the status keyword and
   `uri-valid?` are exported rather than internal."
   (when (source-available?)
-    (is (thrown? clojure.lang.ExceptionInfo (at/parse-uri "at://only/two")))
+    (is (thrown? kerror/ExceptionInfo (at/parse-uri "at://only/two")))
     (is (false? (call @kir 'uri-valid? ["at://only/two"])))
     (is (= "" (call @kir 'uri-rkey ["at://only/two"])))
-    (is (thrown? clojure.lang.ExceptionInfo (at/repo-uri "nope" "app.b.c" "self")))
+    (is (thrown? kerror/ExceptionInfo (at/repo-uri "nope" "app.b.c" "self")))
     (is (= "" (call @kir 'repo-uri ["nope" "app.b.c" "self"])))))
